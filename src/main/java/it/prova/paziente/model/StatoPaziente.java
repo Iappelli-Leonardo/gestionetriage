@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public enum StatoPaziente {
-IN_ATTESA_VISITA("In Attesa Visita"), IN_VISITA("In Visita"), RICOVERATO("Ricoverato"), DISMESSO("Dismesso");
+	IN_ATTESA_VISITA("In Attesa Visita"), IN_VISITA("In Visita"), RICOVERATO("Ricoverato"), DISMESSO("Dismesso");
 	
 	private String abbreviazione;
 
