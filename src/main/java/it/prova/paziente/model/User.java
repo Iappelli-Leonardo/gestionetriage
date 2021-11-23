@@ -42,9 +42,13 @@ public class User {
 	@Size(min = 4, max = 100)
 	private String cognome;
 	
+	@Column(name = "ENABLED")
+	@NotNull
+	private Boolean enabled;
+	
 	@Column(name = "DATAREGISTRAZIONE", length = 100)
 	@NotNull
-	private Date dataRegistrazaione;
+	private Date dataRegistrazione;
 	
 	@Enumerated(EnumType.STRING)
 	private StatoUtente statoUtente;
@@ -88,11 +92,11 @@ public class User {
 	}
 
 	public Date getDataRegistrazaione() {
-		return dataRegistrazaione;
+		return dataRegistrazione;
 	}
 
-	public void setDataRegistrazaione(Date dataRegistrazaione) {
-		this.dataRegistrazaione = dataRegistrazaione;
+	public void setDataRegistrazaione(Date dataRegistrazione) {
+		this.dataRegistrazione = dataRegistrazione;
 	}
 
 	public StatoUtente getStatoUtente() {
@@ -102,7 +106,16 @@ public class User {
 	public void setStatoUtente(StatoUtente statoUtente) {
 		this.statoUtente = statoUtente;
 	}
+	
+	public Boolean getEnabled() {
+		return enabled;
+	}
 
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	
 	public List<Authority> getAuthorities() {
 		return authorities;
 	}
