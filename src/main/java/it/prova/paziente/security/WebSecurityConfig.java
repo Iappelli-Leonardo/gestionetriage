@@ -85,7 +85,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/public/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/paziente/**").hasAnyAuthority("ROLE_SUB_OPERATOR")
                 .antMatchers(HttpMethod.POST,"/api/paziente/search").hasAnyAuthority("ROLE_SUB_OPERATOR")
-                .antMatchers(HttpMethod.GET,"/api/dottore/**").hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET,"paziente/api/dottore/**").hasAnyAuthority("ADMIN", "ROLE_SUB_OPERATOR")
+                .antMatchers(HttpMethod.POST,"paziente/api/dottore/**").hasAnyAuthority("ADMIN", "ROLE_SUB_OPERATOR")
+                .antMatchers(HttpMethod.GET,"/api/dottore/**").hasAnyAuthority("ADMIN", "ROLE_SUB_OPERATOR")
                 .antMatchers("/api/user/**").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated();
 

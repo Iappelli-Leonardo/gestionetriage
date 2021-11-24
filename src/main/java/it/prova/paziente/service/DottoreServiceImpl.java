@@ -88,4 +88,9 @@ public class DottoreServiceImpl implements DottoreService{
 		return dottoreRepository.findAll(specificationCriteria, paging);
 	}
 
+	@Override
+	public Dottore findByCodiceDipendente(String codiceInput) {
+		return dottoreRepository.findByCodiceDipendente(codiceInput);
+	}
+
 }

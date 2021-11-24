@@ -70,9 +70,16 @@ public class DottoreRestController {
 
 	@DeleteMapping("/{id}")
 	public void deleteDottore(@PathVariable(required = true) Long id) {
+		ResponseEntity<DottoreResponceDTO> response = webClient.post().uri("")
+				.body(Mono.just(new DottoreRequestDTO(id)), DottoreRequestDTO.class).retrieve()
+				.toEntity(DottoreResponceDTO.class).block();
+
+		if (response.getStatusCode() != HttpStatus.CREATED)
+			throw new RuntimeException("Errore nella creazione della nuova voce tramite api esterna!!!");
+
 		dottoreService.delete(dottoreService.get(id));
 	}
-	
+		
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public DottoreDTO createNew(@RequestBody DottoreDTO dottoreInput) {
