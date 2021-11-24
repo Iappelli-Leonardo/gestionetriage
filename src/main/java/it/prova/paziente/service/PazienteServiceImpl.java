@@ -1,6 +1,7 @@
 package it.prova.paziente.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.Predicate;
@@ -17,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import it.prova.paziente.exception.PazienteNotFoundException;
 import it.prova.paziente.model.Paziente;
+import it.prova.paziente.model.StatoPaziente;
 import it.prova.paziente.repository.PazienteRepository;
 
 @Service
@@ -79,6 +81,8 @@ public class PazienteServiceImpl implements PazienteService{
 
 	@Transactional
 	public Paziente save(Paziente input) {
+		input.setStato(StatoPaziente.IN_ATTESA_VISITA);
+		input.setDataRegistrazione(new Date());
 		return pazienteRepository.save(input);
 	}
 

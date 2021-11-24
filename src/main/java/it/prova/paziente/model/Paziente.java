@@ -30,7 +30,11 @@ public class Paziente {
 	@Enumerated(EnumType.STRING)
 	private StatoPaziente statoPaziente;
 
-	
+	public Paziente() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public Paziente(Long id, String nome, String cognome, String codiceFiscale, Date dataRegistrazione,	StatoPaziente statoPaziente, Dottore dottore
 		) {
 		super();
@@ -51,6 +55,13 @@ public class Paziente {
 		this.codiceFiscale = codiceFiscale;
 		this.dataRegistrazione = dataRegistrazione;
 		this.statoPaziente = statoPaziente;
+	}
+	
+	public Paziente(String nome, String cognome, String codiceFiscale) {
+		super();
+		this.nome = nome;
+		this.cognome = cognome;
+		this.codiceFiscale = codiceFiscale;
 	}
 
 	public Paziente(String nome, String cognome, String codiceFiscale, Date dataRegistrazione, Dottore dottore,
@@ -136,6 +147,5 @@ public class Paziente {
 	public void setStato(StatoPaziente statoPaziente) {
 		this.statoPaziente = statoPaziente;
 	}
-	
 
 }

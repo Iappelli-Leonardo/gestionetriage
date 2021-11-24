@@ -104,6 +104,8 @@ public class UserServiceImpl implements UserService{
 
 	@Transactional
 	public User save(User input) {
+		input.setDataCreazione(new Date());
+		input.setStato(StatoUtente.CREATO);
 		return userRepository.save(input);
 	}
 

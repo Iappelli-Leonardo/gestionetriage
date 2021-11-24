@@ -37,34 +37,6 @@ public class Application{
 	public CommandLineRunner initAutomobili(PazienteService pazienteService) {
 		return (args) -> {
 
-//			// inizializzo il Db
-//			pazienteService.save(new Paziente("paziente1", "cognome1", "AB987UI",
-//					new SimpleDateFormat("dd/MM/yyyy").parse("28/12/2018"), StatoUtente.CREATO));
-//			pazienteService.save(new Paziente("Fiat", "500", "HG987UI",
-//					new SimpleDateFormat("dd/MM/yyyy").parse("28/09/2018"), true));
-//			pazienteService.save(new Paziente("VW", "Golf", "YU547UI",
-//					new SimpleDateFormat("dd/MM/yyyy").parse("28/12/2018"), true));
-//			pazienteService.save(new Paziente("Opel", "Tigra", "XX127UI",
-//					new SimpleDateFormat("dd/MM/yyyy").parse("28/12/1998"), false));
-//
-//			pazienteService.save(new Paziente("Fiat", "500", "RR123UI",
-//					new SimpleDateFormat("dd/MM/yyyy").parse("28/03/2015"), true));
-//			pazienteService.save(new Paziente("Toyota", "Yaris", "ZZ987UI",
-//					new SimpleDateFormat("dd/MM/yyyy").parse("12/10/2018"), true));
-//			pazienteService.save(new Paziente("Peugeot", "208", "JJ789UI",
-//					new SimpleDateFormat("dd/MM/yyyy").parse("08/12/2017"), true));
-//			pazienteService.save(new Paziente("Opel", "Corsa", "LK987HB",
-//					new SimpleDateFormat("dd/MM/yyyy").parse("01/05/2018"), false));
-//
-//			pazienteService.save(new Paziente("Fiat", "Punto", "XZ987UI",
-//					new SimpleDateFormat("dd/MM/yyyy").parse("19/12/2016"), true));
-//			pazienteService.save(new Paziente("Fiat", "500", "BN343MM",
-//					new SimpleDateFormat("dd/MM/yyyy").parse("01/04/2018"), true));
-//			pazienteService.save(new Paziente("Audi", "A3", "KK547UI",
-//					new SimpleDateFormat("dd/MM/yyyy").parse("06/06/2019"), true));
-//			pazienteService.save(new Paziente("Renault", "Clio", "BV878HJ",
-//					new SimpleDateFormat("dd/MM/yyyy").parse("02/04/2020"), false));
-
 			// verifico inserimento
 			System.out.println("Elenco Pazienti");
 			pazienteService.listAll().forEach(autoItem -> {
