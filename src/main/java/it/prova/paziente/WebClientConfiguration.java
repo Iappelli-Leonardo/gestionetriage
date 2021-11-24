@@ -16,7 +16,7 @@ import reactor.netty.http.client.HttpClient;
 @Configuration
 public class WebClientConfiguration {
 	
-	private static final String BASE_URL = "http://localhost:8081/previdenza/api/registro";
+	private static final String BASE_URL = "http://localhost:8081/dottore/api/dottore";
 
 	@Bean
 	public WebClient getWebClient() {

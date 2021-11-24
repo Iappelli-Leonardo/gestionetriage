@@ -25,6 +25,11 @@ public class DottoreDTO {
 	
 	private PazienteDTO paziente;
 
+	public DottoreDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public DottoreDTO(Long id, String nome, String cognome, String codiceDipendete, PazienteDTO paziente) {
 		super();
 		this.id = id;
@@ -98,13 +103,22 @@ public class DottoreDTO {
 	}
 	
 	public Dottore buildDottoreModel() {
-		return new Dottore(this.id,this.nome, this.cognome, this.codiceDipendete, this.paziente.buildPazienteModel());
+		if(this.paziente == null) {
+		 	return new Dottore(this.id,this.nome, this.cognome, this.codiceDipendete, null);
+		}
+		
+		return new Dottore(this.id,this.nome, this.cognome, this.codiceDipendete, 
+				this.paziente.buildPazienteModel());
 	}
 
 	public static DottoreDTO buildDottoreDTOFromModel(Dottore dottoreModel) {
-		DottoreDTO result = new DottoreDTO(dottoreModel.getId(), dottoreModel.getNome(),dottoreModel.getCognome(),
+		if(dottoreModel.getPazienteAttualmenteInVisita() == null) {
+			return new DottoreDTO(dottoreModel.getId(), dottoreModel.getNome(),dottoreModel.getCognome(),
+				dottoreModel.getCodiceDipendete(),null);}
+		
+		return new DottoreDTO(dottoreModel.getId(), dottoreModel.getNome(),dottoreModel.getCognome(),
 				dottoreModel.getCodiceDipendete(), PazienteDTO.buildPazienteDTOFromModel(dottoreModel.getPazienteAttualmenteInVisita()));
-		return result;
+		
 	}
 	public static List<DottoreDTO> createDottoreDTOListFromModelList(List<Dottore> modelListInput) {
 		return modelListInput.stream().map(dottoreEntity -> {

@@ -33,7 +33,8 @@ public class Dottore {
 		this.codiceDipendete = codiceDipendete;
 		this.pazienteAttualmenteInVisita = pazienteAttualmenteInVisita;
 	}
-
+	
+	
 	public Dottore(Long id, String nome, String cognome, String codiceDipendete) {
 		super();
 		this.id = id;

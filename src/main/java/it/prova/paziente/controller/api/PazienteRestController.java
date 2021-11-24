@@ -25,7 +25,7 @@ import org.springframework.http.ResponseEntity;
 @RestController
 @RequestMapping(value = "/api/paziente", produces = { MediaType.APPLICATION_JSON_VALUE })
 public class PazienteRestController {
-
+	
 	@Autowired
 	private PazienteService pazienteService;
 
@@ -70,5 +70,7 @@ public class PazienteRestController {
 	public void deletePaziente(@PathVariable(required = true) Long id) {
 		pazienteService.delete(pazienteService.get(id));
 	}
+	
+	
 
 }
