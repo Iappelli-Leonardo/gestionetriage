@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.prova.paziente.model.Paziente;
-import it.prova.paziente.service.PazienteService;
+import it.prova.paziente.model.Dottore;
+import it.prova.paziente.service.DottoreService;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,51 +23,49 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 @RestController
-@RequestMapping(value = "/api/paziente", produces = { MediaType.APPLICATION_JSON_VALUE })
+@RequestMapping(value = "/api/dottore", produces = { MediaType.APPLICATION_JSON_VALUE })
 public class DottoreRestController {
+	
 	@Autowired
-	private PazienteService pazienteService;
+	private DottoreService dottoreService;
 
 	@GetMapping("/{idInput}")
-	public Paziente getPaziente(@PathVariable(required = true) Long idInput) {
-		return pazienteService.get(idInput);
+	public Dottore getDottore(@PathVariable(required = true) Long idInput) {
+		return dottoreService.get(idInput);
 	}
 
 	@GetMapping
-	public List<Paziente> getAll() {
-		return pazienteService.listAll();
+	public List<Dottore> getAll() {
+		return dottoreService.listAll();
 	}
 
 	@PostMapping("/search")
-	public ResponseEntity<Page<Paziente>> searchAndPagination(@RequestBody Paziente pazienteExample,
+	public ResponseEntity<Page<Dottore>> searchAndPagination(@RequestBody Dottore dottoreExample,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
 			@RequestParam(defaultValue = "id") String sortBy) {
 
-		Page<Paziente> results = pazienteService.searchAndPaginate(pazienteExample, pageNo, pageSize, sortBy);
+		Page<Dottore> results = dottoreService.searchAndPaginate(dottoreExample, pageNo, pageSize, sortBy);
 
-		return new ResponseEntity<Page<Paziente>>(results, new HttpHeaders(), HttpStatus.OK);
+		return new ResponseEntity<Page<Dottore>>(results, new HttpHeaders(), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public Paziente createNewPaziente(@RequestBody Paziente pazienteInput) {
-		return pazienteService.save(pazienteInput);
+	public Dottore createNewDottore(@RequestBody Dottore dottoreInput) {
+		return dottoreService.save(dottoreInput);
 	}
 
 	@PutMapping("/{id}")
-	public Paziente updatePaziente(@RequestBody Paziente pazienteInput, @PathVariable Long id) {
-		Paziente pazienteToUpdate = pazienteService.get(id);
-		pazienteToUpdate.setNome(pazienteInput.getNome());
-		pazienteToUpdate.setCognome(pazienteInput.getCognome());
-		pazienteToUpdate.setCodiceFiscale(pazienteInput.getCodiceFiscale());
-		pazienteToUpdate.setDataRegistrazione(pazienteInput.getDataRegistrazione());
-		pazienteToUpdate.setStato(pazienteInput.getStato());
-		pazienteToUpdate.setDottore(pazienteInput.getDottore());
-		return pazienteService.save(pazienteToUpdate);
+	public Dottore updateDottore(@RequestBody Dottore dottoreInput, @PathVariable Long id) {
+		Dottore dottoreToUpdate = dottoreService.get(id);
+		dottoreToUpdate.setNome(dottoreInput.getNome());
+		dottoreToUpdate.setCognome(dottoreInput.getCognome());
+		dottoreToUpdate.setCodiceDipendete(dottoreInput.getCodiceDipendete());
+		return dottoreService.save(dottoreToUpdate);
 	}
 
 	@DeleteMapping("/{id}")
-	public void deletePaziente(@PathVariable(required = true) Long id) {
-		pazienteService.delete(pazienteService.get(id));
+	public void deleteDottore(@PathVariable(required = true) Long id) {
+		dottoreService.delete(dottoreService.get(id));
 	}
 
 }
