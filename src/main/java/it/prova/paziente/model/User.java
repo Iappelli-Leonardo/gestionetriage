@@ -1,18 +1,16 @@
 package it.prova.paziente.model;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,7 +18,6 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "USER")
 public class User {
-
 	@Id
 	@Column(name = "USERNAME", length = 50, unique = true)
 	@NotNull
@@ -32,26 +29,16 @@ public class User {
 	@Size(min = 4, max = 100)
 	private String password;
 
-	@Column(name = "NOME", length = 100)
 	@NotBlank
-	@Size(min = 4, max = 100)
-	private String nome;
-	
-	@Column(name = "COGNOME", length = 100)
-	@NotBlank
-	@Size(min = 4, max = 100)
-	private String cognome;
-	
+	@Size(max = 50)
+	@Email
+	private String email;
+
 	@Column(name = "ENABLED")
 	@NotNull
 	private Boolean enabled;
-	
-	@Column(name = "DATAREGISTRAZIONE", length = 100)
-	@NotNull
-	private Date dataRegistrazione;
-	
-	@Enumerated(EnumType.STRING)
-	private StatoUtente statoUtente;
+
+	private StatoUtente stato;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "USERS_AUTHORITIES", joinColumns = {
@@ -75,38 +62,14 @@ public class User {
 		this.password = password;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public String getCognome() {
-		return cognome;
-	}
-
-	public void setCognome(String cognome) {
-		this.cognome = cognome;
-	}
-
-	public Date getDataRegistrazaione() {
-		return dataRegistrazione;
-	}
-
-	public void setDataRegistrazaione(Date dataRegistrazione) {
-		this.dataRegistrazione = dataRegistrazione;
-	}
-
-	public StatoUtente getStatoUtente() {
-		return statoUtente;
-	}
-
-	public void setStatoUtente(StatoUtente statoUtente) {
-		this.statoUtente = statoUtente;
-	}
-	
 	public Boolean getEnabled() {
 		return enabled;
 	}
@@ -115,13 +78,20 @@ public class User {
 		this.enabled = enabled;
 	}
 
-	
 	public List<Authority> getAuthorities() {
 		return authorities;
 	}
 
 	public void setAuthorities(List<Authority> authorities) {
 		this.authorities = authorities;
+	}
+
+	public StatoUtente getStato() {
+		return stato;
+	}
+
+	public void setStato(StatoUtente stato) {
+		this.stato = stato;
 	}
 }
 
