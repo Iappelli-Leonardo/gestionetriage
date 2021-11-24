@@ -22,6 +22,4 @@ public interface DottoreService {
 
 	public void delete(Dottore input);
 	
-	public Dottore findByCodiceDipendente(String codiceInput);
-	
 }
