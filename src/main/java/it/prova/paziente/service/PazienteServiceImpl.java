@@ -90,5 +90,11 @@ public class PazienteServiceImpl implements PazienteService{
 	public void delete(Paziente input) {
 		pazienteRepository.delete(input);
 	}
+	
+	@Transactional
+	public Paziente findByCodiceFiscale(String codiceFiscale) {
+		
+		return pazienteRepository.findByCodiceFiscale(codiceFiscale);
+	}
 
 }

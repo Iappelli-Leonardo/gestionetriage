@@ -90,7 +90,7 @@ public class DottoreServiceImpl implements DottoreService{
 
 	@Override
 	public Dottore findByCodiceDipendente(String codiceInput) {
-		return dottoreRepository.findByCodiceDipendente(codiceInput);
+		return dottoreRepository.findBycodiceDipendete(codiceInput);
 	}
 
 }

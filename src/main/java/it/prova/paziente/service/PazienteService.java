@@ -21,4 +21,7 @@ public interface PazienteService {
 	public Paziente save(Paziente input);
 
 	public void delete(Paziente input);
+	
+	public Paziente findByCodiceFiscale(String codiceFiscale);
+	
 }

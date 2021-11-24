@@ -19,6 +19,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import it.prova.paziente.dto.DottoreDTO;
 import it.prova.paziente.dto.DottoreRequestDTO;
 import it.prova.paziente.dto.DottoreResponceDTO;
+import it.prova.paziente.exception.DottoreNotFoundException;
 import it.prova.paziente.model.Dottore;
 import it.prova.paziente.service.DottoreService;
 import reactor.core.publisher.Mono;
@@ -61,7 +62,19 @@ public class DottoreRestController {
 
 	@PutMapping("/{id}")
 	public Dottore updateDottore(@RequestBody Dottore dottoreInput, @PathVariable Long id) {
-		Dottore dottoreToUpdate = dottoreService.get(id);
+Dottore dottoreToUpdate = dottoreService.get(id);
+		
+		if (dottoreToUpdate == null)
+			throw new DottoreNotFoundException("Dottore non trovato!");
+
+		ResponseEntity<DottoreResponceDTO> response = webClient.post().uri("")
+				.body(Mono.just(new DottoreRequestDTO(dottoreInput.getId(), dottoreInput.getNome(),
+						dottoreInput.getCognome(), dottoreInput.getCodiceDipendete())), DottoreRequestDTO.class)
+				.retrieve().toEntity(DottoreResponceDTO.class).block();
+
+		if (response.getStatusCode() != HttpStatus.OK)
+			throw new RuntimeException("Errore nella creazione della nuova voce tramite api esterna!!!");
+
 		dottoreToUpdate.setNome(dottoreInput.getNome());
 		dottoreToUpdate.setCognome(dottoreInput.getCognome());
 		dottoreToUpdate.setCodiceDipendete(dottoreInput.getCodiceDipendete());

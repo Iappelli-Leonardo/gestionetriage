@@ -7,6 +7,6 @@ import it.prova.paziente.model.Dottore;
 
 public interface DottoreRepository extends PagingAndSortingRepository<Dottore, Long>, JpaSpecificationExecutor<Dottore> {
 
-	public Dottore findByCodiceDipendente(String codiceInput);
+	public Dottore findBycodiceDipendete(String codiceInput);
 	
 }

@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.prova.paziente.exception.PazienteInVisitaException;
 import it.prova.paziente.model.Paziente;
+import it.prova.paziente.model.StatoPaziente;
 import it.prova.paziente.service.PazienteService;
 
 import org.springframework.http.HttpHeaders;
@@ -51,6 +53,7 @@ public class PazienteRestController {
 
 	@PostMapping
 	public Paziente createNewPaziente(@RequestBody Paziente pazienteInput) {
+		pazienteInput.setStato(StatoPaziente.IN_ATTESA_VISITA);
 		return pazienteService.save(pazienteInput);
 	}
 
@@ -68,9 +71,12 @@ public class PazienteRestController {
 
 	@DeleteMapping("/{id}")
 	public void deletePaziente(@PathVariable(required = true) Long id) {
+		Paziente paziente = pazienteService.cariscaSingoloElemento(id);
+		if (paziente.getStato().equals(StatoPaziente.DISMESSO))
 		pazienteService.delete(pazienteService.get(id));
+		else 
+			throw new PazienteInVisitaException("il paziente è ancora in visita!");
 	}
-	
 	
 
 }
