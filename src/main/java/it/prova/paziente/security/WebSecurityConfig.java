@@ -22,8 +22,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import it.prova.paziente.security.jwt.JwtAuthenticationEntryPoint;
 import it.prova.paziente.security.jwt.JwtAuthenticationTokenFilter;
 
-
-
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -85,9 +83,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.js"
                 ).permitAll()
                 .antMatchers("/public/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/api/dispositivo/**").hasAnyAuthority("ROLE_USER")
-                .antMatchers(HttpMethod.POST,"/api/dispositivo/search").hasAnyAuthority("ROLE_USER")
-                .antMatchers("/api/dispositivo/**").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers(HttpMethod.GET,"/api/dispositivo/**").hasAnyAuthority("ROLE_SUB_OPERATOR")
+                .antMatchers(HttpMethod.POST,"/api/dispositivo/search").hasAnyAuthority("ROLE_SUB_OPERATOR")
+                .antMatchers("/api/user/**").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated();
 
         // Filtro Custom JWT

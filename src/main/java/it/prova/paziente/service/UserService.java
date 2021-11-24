@@ -21,6 +21,8 @@ public interface UserService {
 
 	public User save(User input);
 
-	public void delete(User input);
+	public User aggiorna(User input);
+	
+	public void changeUserAbilitation(Long userInstanceId);
 	
 }

@@ -57,7 +57,7 @@ public class AuthenticationRestController {
 												 userDetails.getUsername(), 
 												 userDetails.getNome(), 
 												 userDetails.getCognome(), 
-												 userDetails.getDataRegistrazione(),
+												 userDetails.getDataCreazione(),
 												 roles));
 	}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,22 +25,22 @@ public class PazienteServiceImpl implements PazienteService{
 	@Autowired
 	private PazienteRepository pazienteRepository;
 	
-	@Override
+	@Transactional
 	public Paziente inserisciNuovo(Paziente transientInstance) {
 		return pazienteRepository.save(transientInstance);
 	}
 
-	@Override
+	@Transactional
 	public List<Paziente> listAll() {
 		return (List<Paziente>) pazienteRepository.findAll();
 	}
 
-	@Override
+	@Transactional
 	public Paziente cariscaSingoloElemento(Long id) {
 		return pazienteRepository.findById(id).orElse(null);
 	}
 
-	@Override
+	@Transactional
 	public Page<Paziente> searchAndPaginate(Paziente Example, Integer pageNo, Integer pageSize,
 			String sortBy) {
 		Specification<Paziente> specificationCriteria = (root, query, cb) -> {
@@ -70,18 +71,18 @@ public class PazienteServiceImpl implements PazienteService{
 		return pazienteRepository.findAll(specificationCriteria, paging);
 	}
 
-	@Override
+	@Transactional
 	public Paziente get(Long idInput) {
 		return pazienteRepository.findById(idInput)
 				.orElseThrow(() -> new PazienteNotFoundException("Element with id " + idInput + " not found."));
 	}
 
-	@Override
+	@Transactional
 	public Paziente save(Paziente input) {
 		return pazienteRepository.save(input);
 	}
 
-	@Override
+	@Transactional
 	public void delete(Paziente input) {
 		pazienteRepository.delete(input);
 	}

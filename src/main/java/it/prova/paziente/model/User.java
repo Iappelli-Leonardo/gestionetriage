@@ -1,5 +1,6 @@
 package it.prova.paziente.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -10,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,20 +29,29 @@ public class User {
 	@Size(min = 4, max = 100)
 	private String password;
 
+	@Column(name = "NOME")
 	@NotBlank
-	@Size(max = 50)
-	@Email
-	private String email;
+	private String nome;
+	
+	@Column(name = "COGNOME")
+	@NotBlank
+	private String cognome;
+	
+	@Column(name = "DATACREAZIONE")
+	
+	private Date dataCreazione;
 
 	@Column(name = "ENABLED")
 	@NotNull
 	private Boolean enabled;
-
+	
+	@Column(name = "STATO")
 	private StatoUtente stato;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "USERS_AUTHORITIES", joinColumns = {
-			@JoinColumn(name = "USER_USERNAME", referencedColumnName = "USERNAME") }, inverseJoinColumns = {
+			@JoinColumn(name = "USER_USERNAME", referencedColumnName = "USERNAME") },
+	inverseJoinColumns = {
 					@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID") })
 	private List<Authority> authorities;
 
@@ -62,14 +71,6 @@ public class User {
 		this.password = password;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public Boolean getEnabled() {
 		return enabled;
 	}
@@ -86,6 +87,30 @@ public class User {
 		this.authorities = authorities;
 	}
 
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getCognome() {
+		return cognome;
+	}
+
+	public void setCognome(String cognome) {
+		this.cognome = cognome;
+	}
+
+	public Date getDataCreazione() {
+		return dataCreazione;
+	}
+
+	public void setDataCreazione(Date dataCreazione) {
+		this.dataCreazione = dataCreazione;
+	}
+
 	public StatoUtente getStato() {
 		return stato;
 	}
@@ -93,5 +118,6 @@ public class User {
 	public void setStato(StatoUtente stato) {
 		this.stato = stato;
 	}
-}
+	
 
+}

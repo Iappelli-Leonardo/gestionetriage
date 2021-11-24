@@ -1,9 +1,11 @@
 package it.prova.paziente.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,71 +15,52 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.paziente.exception.UserNotFoundException;
+import it.prova.paziente.model.StatoUtente;
 import it.prova.paziente.model.User;
-import it.prova.paziente.repository.UserRepository;
+import it.prova.paziente.security.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserRepository userRepository;
-
-	@Override
+	
+	@Transactional
 	public List<User> listAll() {
 		return (List<User>) userRepository.findAll();
 	}
 
-	@Override
-	public User cariscaSingoloElemento(Long id) {
-		return userRepository.findById(id).orElse(null);
-	}
-
-	@Override
 	@Transactional
-	public User inserisciNuovo(User transientInstance) {
-		return userRepository.save(transientInstance);
+	public User cariscaSingoloElemento(Long id) {
+		return userRepository.findById(id)
+				.orElseThrow(() -> new UserNotFoundException("Element with id " + id + " not found."));
 	}
 
-	@Override
-	public User get(Long idInput) {
-		return userRepository.findById(idInput)
-				.orElseThrow(() -> new UserNotFoundException("Element with id " + idInput + " not found."));
-	}
-
-	@Override
-	public User save(User input) {
-		return userRepository.save(input);
-	}
-
-	@Override
-	public void delete(User input) {
-		userRepository.delete(input);
-	}
-
-	@Override
+	@Transactional
 	public Page<User> searchAndPaginate(User userExample, Integer pageNo, Integer pageSize, String sortBy) {
-
 		Specification<User> specificationCriteria = (root, query, cb) -> {
 
 			List<Predicate> predicates = new ArrayList<Predicate>();
 
 			if (!StringUtils.isEmpty(userExample.getUsername()))
 				predicates.add(
-						cb.like(cb.upper(root.get("username")), "%" + userExample.getUsername().toUpperCase() + "%"));
+						cb.like(cb.upper(root.get("USERNAME")), "%" + userExample.getUsername().toUpperCase() + "%"));
 
-			if (!StringUtils.isEmpty(userExample.getEmail()))
-				predicates.add(cb.like(cb.upper(root.get("email")), "%" + userExample.getEmail().toUpperCase() + "%"));
+			if (!StringUtils.isEmpty(userExample.getNome()))
+				predicates.add(cb.like(cb.upper(root.get("NOME")), "%" + userExample.getNome().toUpperCase() + "%"));
 
-			if (userExample.getEnabled())
-				predicates.add(cb.isTrue(root.get("enabled")));
-			else if (userExample.getEnabled())
-				predicates.add(cb.isFalse(root.get("enabled")));
+			if (!StringUtils.isEmpty(userExample.getCognome()))
+				predicates.add(
+						cb.like(cb.upper(root.get("COGNOME")), "%" + userExample.getCognome().toUpperCase() + "%"));
 
-			if (!StringUtils.isEmpty(userExample.getStato()))
-				predicates.add(cb.like(cb.upper(root.get("stato")), "%" + userExample.getStato() + "%"));
+			if (userExample.getDataCreazione() != null)
+				predicates
+						.add(cb.greaterThanOrEqualTo((root.get("DATACREAZIONE")),userExample.getDataCreazione()));
+
+			if (userExample.getStato() != null)
+				predicates.add(cb.like(cb.upper(root.get("STATO")), "%" + userExample.getStato() + "%"));
 
 			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
 		};
@@ -86,5 +69,43 @@ public class UserServiceImpl implements UserService{
 
 		return userRepository.findAll(specificationCriteria, paging);
 	}
+
+	@Transactional
+	public User aggiorna(User userInstance) {
+		return userRepository.save(userInstance);
+
+	}
+
+	@Transactional
+	public User inserisciNuovo(User userInstance) {
+		userInstance.setDataCreazione(new Date());
+	return	userRepository.save(userInstance);
+
+	}
+
+	@Transactional
+	public void changeUserAbilitation(Long userInstanceId) {
+		
+		User userInstance = cariscaSingoloElemento(userInstanceId);
+		
+		if(userInstance.getStato().equals(StatoUtente.ATTIVO)) {
+			userInstance.setStato(StatoUtente.DISABILITATO);
+		}
+		if(userInstance.getStato().equals(StatoUtente.CREATO)) {
+			userInstance.setStato(StatoUtente.DISABILITATO);
+		}
+	}
+
+	@Transactional
+	public User get(Long idInput) {
+		return userRepository.findById(idInput)
+				.orElseThrow(() -> new UserNotFoundException("Element with id " + idInput + " not found."));
+	}
+
+	@Transactional
+	public User save(User input) {
+		return userRepository.save(input);
+	}
+
 
 }

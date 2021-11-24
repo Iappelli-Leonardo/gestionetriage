@@ -20,28 +20,25 @@ public class JwtUserDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = 1L;
 	private final String username;
 	private final String password;
-	private String nome;
-	private String cognome;
-	private Date dataRegistrazione;
+	private final String nome;
+	private final String cognome;
+	private final Date dataCreazione;
+	private final StatoUtente stato;
 	private final Collection<? extends GrantedAuthority> authorities;
 	private final boolean enabled;
-	private StatoUtente statoUtente;
 
-	
-	
-	public JwtUserDetailsImpl(String username, String password, String nome, String cognome, Date dataRegistrazione,
-			Collection<? extends GrantedAuthority> authorities, boolean enabled, StatoUtente statoUtente) {
-		super();
+	public JwtUserDetailsImpl(String username, String password, String nome, String cognome, Date dataCreazione, StatoUtente stato, Collection<? extends GrantedAuthority> authorities,
+			boolean enabled) {
 		this.username = username;
 		this.password = password;
 		this.nome = nome;
-		this.cognome = cognome;
-		this.dataRegistrazione = dataRegistrazione;
+		this.cognome=cognome;
+		this.dataCreazione = dataCreazione;
+		this.stato = stato;
 		this.authorities = authorities;
 		this.enabled = enabled;
-		this.statoUtente = statoUtente;
 	}
-
+	
 	public static JwtUserDetailsImpl build(User user) {
 		List<GrantedAuthority> authorities = user.getAuthorities().stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getName().name()))
@@ -52,17 +49,33 @@ public class JwtUserDetailsImpl implements UserDetails {
                 user.getPassword(),
                 user.getNome(),
                 user.getCognome(),
-                user.getDataRegistrazaione(),
+                user.getDataCreazione(),
+                user.getStato(),
                 authorities,
-                user.getEnabled(),
-                user.getStatoUtente()
-               
+                user.getEnabled()
         );
     }
 
 	@Override
 	public String getUsername() {
 		return username;
+	}
+
+
+	public String getNome() {
+		return nome;
+	}
+
+	public String getCognome() {
+		return cognome;
+	}
+	
+	public Date getDataCreazione() {
+		return dataCreazione;
+	}
+	
+	public StatoUtente getStato() {
+		return stato;
 	}
 
 	@JsonIgnore
@@ -88,7 +101,6 @@ public class JwtUserDetailsImpl implements UserDetails {
 	public String getPassword() {
 		return password;
 	}
-	
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -100,39 +112,6 @@ public class JwtUserDetailsImpl implements UserDetails {
 		return enabled;
 	}
 	
-	
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getCognome() {
-		return cognome;
-	}
-
-	public void setCognome(String cognome) {
-		this.cognome = cognome;
-	}
-
-	public StatoUtente getStatoUtente() {
-		return statoUtente;
-	}
-
-	public void setStatoUtente(StatoUtente statoUtente) {
-		this.statoUtente = statoUtente;
-	}
-	
-	public Date getDataRegistrazione() {
-		return dataRegistrazione;
-	}
-
-	public void setDataRegistrazione(Date dataRegistrazione) {
-		this.dataRegistrazione = dataRegistrazione;
-	}
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
